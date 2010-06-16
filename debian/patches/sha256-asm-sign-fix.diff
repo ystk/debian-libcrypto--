@@ -1,0 +1,34 @@
+Subject: Fix sha256 assembly problem with signed address comparison.
+Author: Ken Raeburn
+Bug: http://sourceforge.net/apps/trac/cryptopp/ticket/2
+
+A message straddling memory address 0x80000000 (e.g., starting at
+0x7ffffff0 with length 32) on 32-bit x86 with the asm support enabled
+gets hashed incorrectly, because signed comparisons are done on
+addresses, so the ending address looks "less than" the starting
+address.  (On some OSes, you can't get such an address range, or you
+may need a special kernel configuration.)  It's probably safer to
+assume that messages won't straddle address 0.
+
+Index: libcrypto++/sha.cpp
+===================================================================
+--- libcrypto++.orig/sha.cpp	2010-06-15 23:26:51.000000000 +0200
++++ libcrypto++/sha.cpp	2010-06-15 23:28:31.000000000 +0200
+@@ -374,7 +374,7 @@
+ 	AS2(	movdqa	[AS_REG_7+1*16], xmm1)
+ 	AS2(	movdqa	[AS_REG_7+0*16], xmm0)
+ 	AS2(	cmp		WORD_REG(dx), DATA_END)
+-	ASJ(	jl,		0, b)
++	ASJ(	jb,		0, b)
+ #endif
+ 
+ #if CRYPTOPP_BOOL_X86
+@@ -398,7 +398,7 @@
+ 	AS2(	add		[AS_REG_7+7*4], ecx)
+ 	AS2(	mov		ecx, AS_REG_7d)
+ 	AS2(	cmp		WORD_REG(dx), DATA_END)
+-	ASJ(	jl,		2, b)
++	ASJ(	jb,		2, b)
+ #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
+ 	ASL(5)
+ #endif

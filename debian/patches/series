@@ -1,0 +1,6 @@
+strict-gcc43-include.diff
+doxygen-setup.diff
+doxygen-main-link.diff
+cryptest-data-files-location.diff
+sha256-asm-sign-fix.diff
+debian-config.diff

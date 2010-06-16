@@ -1,0 +1,3 @@
+usr/include/crypto--/*.h usr/include/crypto++
+usr/lib/*.{a,so}
+usr/lib/pkgconfig/*.pc
