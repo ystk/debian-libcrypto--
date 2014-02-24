@@ -31,8 +31,10 @@ Forwarded: <no|not-needed|url proving that it has been forwarded>
 Reviewed-By: <name and email of someone who approved the patch>
 Last-Update: <YYYY-MM-DD>
 
---- libcrypto++-5.6.0.orig/config.h
-+++ libcrypto++-5.6.0/config.h
+Index: libcrypto++/config.h
+===================================================================
+--- libcrypto++.orig/config.h	2010-08-09 20:42:43.000000000 +0200
++++ libcrypto++/config.h	2010-08-09 20:43:10.000000000 +0200
 @@ -1,18 +1,16 @@
 +/* config.h.  Generated from config.h.in by configure.  */
 +// Debian note: This is a copy of the original config.h file except for the two
@@ -45,7 +47,7 @@ Last-Update: <YYYY-MM-DD>
  // ***************** Important Settings ********************
  
 -// define this if running on a big-endian CPU
--#if !defined(IS_LITTLE_ENDIAN) && (defined(__BIG_ENDIAN__) || defined(__sparc) || defined(__sparc__) || defined(__hppa__) || defined(__mips__) || (defined(__MWERKS__) && !defined(__INTEL__)))
+-#if !defined(IS_LITTLE_ENDIAN) && (defined(__BIG_ENDIAN__) || defined(__sparc) || defined(__sparc__) || defined(__hppa__) || defined(__MIPSEB__) || defined(__ARMEB__) || (defined(__MWERKS__) && !defined(__INTEL__)))
 -#	define IS_BIG_ENDIAN
 -#endif
 -

@@ -1,14 +1,13 @@
 Source: libcrypto++
 Section: libs
 Priority: optional
-Maintainer: Jens Peter Secher <jps@debian.org>
-Standards-Version: 3.8.4
-Build-Depends: debhelper (>= 7), dpkg (>= 1.15.5.6), automake, autoconf, libtool
+Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.hu>
+Standards-Version: 3.9.3
+Build-Depends: debhelper (>= 8), dpkg (>= 1.15.5.6), automake, autoconf, libtool
 Build-Depends-Indep: doxygen
-Vcs-Hg: http://hg.debian.org/hg/collab-maint/libcrypto++
 Homepage: http://www.cryptopp.com
 
-Package: libcrypto++8
+Package: libcrypto++9
 Architecture: any
 Section: libs
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -18,11 +17,12 @@ Description: General purpose cryptographic library - shared library
  This package contains the shared libraries and should only be
  installed if other packages depend on it.
 
-Package: libcrypto++8-dbg
+Package: libcrypto++9-dbg
 Architecture: any
 Section: debug
 Priority: extra
-Depends: libcrypto++8 (= ${binary:Version}), ${misc:Depends}
+Depends: libcrypto++9 (= ${binary:Version}), ${misc:Depends}
+Conflicts: libcrypto++8-dbg
 Description: General purpose cryptographic library - debug symbols
  General purpose cryptographic library for C++.
  .
@@ -33,7 +33,7 @@ Description: General purpose cryptographic library - debug symbols
 Package: libcrypto++-dev
 Architecture: any
 Section: libdevel
-Depends: libcrypto++8 (= ${binary:Version}), ${misc:Depends}
+Depends: libcrypto++9 (= ${binary:Version}), ${misc:Depends}
 Description: General purpose cryptographic library - C++ development
  Crypto++ is library for creating C++ programs which use cryptographic
  algorithms.  The library uses a Pipes & Filters architecture with heavy
@@ -63,11 +63,8 @@ Description: General purpose cryptographic library - C++ development
  nettle.
  .
  This package contains the header files needed for developing using
- the Crypto++ class library.  It also includes the static library with
- libtool supoport, a utility for benchmarking and using the various
- Crypto++ routines, and finally it includes the test vectors for
- validating both the Crypto++ implementation and other implementations
- of these routines.
+ the Crypto++ class library and the static library with libtool
+ supoport.
 
 Package: libcrypto++-utils
 Architecture: any

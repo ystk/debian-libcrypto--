@@ -39,7 +39,7 @@ cryptestcwd_SOURCES = \
 cryptestcwd_LDADD = libcrypto++.la
 
 lib_LTLIBRARIES = libcrypto++.la
-libcrypto___la_LDFLAGS = -version-info 8:0:0
+libcrypto___la_LDFLAGS = -version-info 9:0:0
 libcrypto___la_SOURCES = \
 	3way.cpp \
 	adler32.cpp \

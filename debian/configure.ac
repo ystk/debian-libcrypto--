@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 # Written by Jens Peter Secher <jps@debian.org>.
 
-AC_INIT([Crypto++], [5.6.0], [libcrypto++@bugs.debian.org])
+AC_INIT([Crypto++], [5.6.1], [libcrypto++@bugs.debian.org])
 AC_CONFIG_SRCDIR([cryptlib.h])
 AC_CONFIG_HEADERS([cryptopp_config.h])
 AC_CONFIG_HEADERS([config.h])
@@ -40,4 +40,5 @@ AC_TYPE_SIGNAL
 AC_CHECK_FUNCS([gethostbyname gettimeofday memmove memset pow select socket])
 
 AC_CONFIG_FILES([Makefile libcrypto++.pc])
+AC_CONFIG_MACRO_DIR([m4])
 AC_OUTPUT

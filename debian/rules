@@ -2,6 +2,11 @@
 # debian/rules for libcrypto++.
 # Written by Jens Peter Secher <jps@debian.org>.
 
+site := cryptopp.svn.sourceforge.net
+get-orig-source:
+	wget http://$(site)/viewvc/cryptopp/tags/CRYPTOPP_5_6_1/?view=tar \
+	-O libcrypto++_5.6.1.orig.tar.gz
+
 # The shared library must be the first listed in debian/control.
 package := $(firstword $(shell dh_listpackages))
 
@@ -42,28 +47,23 @@ autotools_input := configure.ac Makefile.am config.h.in libcrypto++.pc.in
 autoclean:
 	-rm -f a.out aclocal.m4 config.log config.sub config.guess	\
 	configure cryptopp_config.h.in depcomp install-sh ltmain.sh	\
-	Makefile.in missing libcrypto++.pc $(autotools_input)
+	Makefile.in missing libcrypto++.pc $(autotools_input)		\
+	m4/libtool.m4 m4/ltoptions.m4 m4/ltsugar.m4 m4/ltversion.m4	\
+	m4/lt~obsolete.m4	
 
 clean: autoclean
 	dh_testdir
 	dh_testroot
 	-rm -f $(CURDIR)/*-stamp
-	[ ! -f Makefile ] || $(MAKE) distclean
-	-rm -rf $(CURDIR)/doc
+	-rm -rf $(CURDIR)/doc $(CURDIR)/.deps $(CURDIR)/.libs $(CURDIR)/*.cache
+	-rm -f $(CURDIR)/Makefile* $(CURDIR)/stamp-* $(CURDIR)/libtool
+	-rm -f $(CURDIR)/*.in $(CURDIR)/config.sub $(CURDIR)/config.guess $(CURDIR)/config.status
+	-rm -f $(CURDIR)/configure.ac $(CURDIR)/cryptopp_config.h
+	-rm -f $(CURDIR)/*.lo $(CURDIR)/*.o cryptest* *.la
 	dh_clean
 
 # Put everything of interest in debian/tmp.
 destdir=$(CURDIR)/debian/tmp
-
-# Manuallly clean an interrupted build.
-realclean:
-	dh_testdir
-	dh_testroot
-	-rm -rf $(CURDIR)/doc $(CURDIR)/.deps $(CURDIR)/.libs $(CURDIR)/*.cache
-	-rm -f $(CURDIR)/*-stamp $(CURDIR)/Makefile* $(CURDIR)/stamp-* $(CURDIR)/libtool
-	-rm -f $(CURDIR)/*.in $(CURDIR)/config.sub $(CURDIR)/config.guess $(CURDIR)/config.status
-	-rm -f $(CURDIR)/configure.ac $(CURDIR)/cryptopp_config.h
-	-rm -f $(CURDIR)/*.lo $(CURDIR)/*.o cryptest* *.la
 
 # Autoreconf needs the automake input to be Makefile.am, so we make
 # sure the upstream GNUmakefile do not shadow the resulting Makefile.
@@ -78,6 +78,9 @@ config-stamp:
 	touch $@
 
 # Build binaries.
+build-arch: build
+build-indep: build
+
 build: config build-stamp
 build-stamp:
 	$(MAKE)
@@ -101,6 +104,7 @@ install-stamp: build
 	rm -f $(destdir)/usr/bin/cryptestcwd
 	mkdir -p $(destdir)/usr/share/crypto--
 	cp -r $(CURDIR)/TestVectors $(destdir)/usr/share/crypto--
+	chmod -x $(destdir)/usr/share/crypto--/TestVectors/*
 	cp -r $(CURDIR)/TestData $(destdir)/usr/share/crypto--
 	mkdir $(destdir)/usr/lib/pkgconfig
 	cp -r $(CURDIR)/*.pc $(destdir)/usr/lib/pkgconfig
@@ -129,7 +133,7 @@ binary-arch: check install-stamp
 	dh_installchangelogs $(binaryargs)
 	dh_installman -plibcrypto++-utils debian/cryptest.1
 	dh_installexamples -plibcrypto++-dev test.cpp
-	dh_strip --dbg-package=libcrypto++8-dbg $(binaryargs)
+	dh_strip --dbg-package=$(package)-dbg $(binaryargs)
 	dh_compress $(binaryargs)
 	dh_fixperms $(binaryargs)
 	dh_makeshlibs $(binaryargs)
@@ -142,4 +146,4 @@ binary-arch: check install-stamp
 binary: binary-indep binary-arch
 
 .PHONY: autoclean binary binary-indep binary-arch bootstrap build	\
-	check clean config html realclean
+	check clean config html get-orig-source
