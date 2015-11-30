@@ -1,3 +1,11 @@
+libcrypto++ (5.6.0-6+deb6u1) squeeze-lts; urgency=high
+
+  * Non-maintainer upload by the Squeeze LTS Team.
+  * Fix CVE-2015-2141, misuse of blinding technique that is aimed at
+    preventing timing attacks.
+
+ -- Thorsten Alteholz <debian@alteholz.de>  Tue, 30 Jun 2015 20:03:02 +0200
+
 libcrypto++ (5.6.0-6) unstable; urgency=low
 
   * Fix sha256 assembly problem with signed address comparison, thanks to

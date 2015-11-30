@@ -42,13 +42,14 @@ autotools_input := configure.ac Makefile.am config.h.in libcrypto++.pc.in
 autoclean:
 	-rm -f a.out aclocal.m4 config.log config.sub config.guess	\
 	configure cryptopp_config.h.in depcomp install-sh ltmain.sh	\
-	Makefile.in missing libcrypto++.pc $(autotools_input)
+	Makefile.in libcrypto++.pc $(autotools_input)
 
 clean: autoclean
 	dh_testdir
 	dh_testroot
 	-rm -f $(CURDIR)/*-stamp
-	[ ! -f Makefile ] || $(MAKE) distclean
+	# next line does not work anymore in wheezy 
+	# [ ! -f Makefile ] || $(MAKE) distclean
 	-rm -rf $(CURDIR)/doc
 	dh_clean
 
